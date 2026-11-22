@@ -1,13 +1,27 @@
+import os
 import psycopg2
+from dotenv import load_dotenv
+from pathlib import Path
+
+env_path=Path(__file__).resolve().parent/".env"
+
+load_dotenv(dotenv_path=env_path)
+
+password=os.getenv("DB_PASSWORD")
+
+print("Env file found:",env_path.exists())
+print("Password loaded:",password is not None)
 
 con=psycopg2.connect(
-    host="localhost",
-    database="Bank_DB",
-    user="postgres",
-    password="vrushali123",
-    port="5432"
+    host=os.getenv("DB_HOST"),
+    database=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=password,
+    port=os.getenv("DB_PORT")
     
 )
+print("PostgreSQL Connected Successfully!")
+
 cursor=con.cursor()
 
 def create_account():
